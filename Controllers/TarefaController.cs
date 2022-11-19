@@ -37,5 +37,10 @@ namespace agendadev_mvc.Controllers
             var tarefas = _context.Tarefas.ToList();
             return View(tarefas);
         }
+
+        public IActionResult Criar()
+        {
+            return View();
+        }
     }
 }
