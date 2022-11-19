@@ -9,7 +9,7 @@ namespace agendadev_mvc.Controllers
 {
     public class TarefaController : Controller
     {
-        //carregar as informações do banco de dados da Tarefa em tela
+        //carregar as informações do banco de dados da Tarefa em tela// injeção de dependencia
         private readonly TarefaContext _context;
 
         //construtor
@@ -18,7 +18,7 @@ namespace agendadev_mvc.Controllers
             _context = context;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet]
         public IActionResult ObterPorId(int id)
         {
             var tarefa = _context.Tarefas.Find(id);
@@ -29,6 +29,13 @@ namespace agendadev_mvc.Controllers
             }
 
             return View(tarefa);
+        }
+
+        [HttpGet]
+        public IActionResult ObterTodos()
+        {
+            var tarefas = _context.Tarefas.ToList();
+            return View(tarefas);
         }
     }
 }
