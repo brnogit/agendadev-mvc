@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using agendadev_mvc.Context;
+using agendadev_mvc.Models;
 
 namespace agendadev_mvc.Controllers
 {
@@ -38,9 +39,24 @@ namespace agendadev_mvc.Controllers
             return View(tarefas);
         }
 
+        //Primeira vez que entrar em Criar
+        [HttpGet] //opcional colocar o get
         public IActionResult Criar()
         {
             return View();
+        }
+
+        // Preenchi as informações e cliquei em Criar, vai chamar o POST e trazer o metodo abaixo
+        [HttpPost]
+        public IActionResult Criar(Tarefa tarefa)
+        {
+            if (ModelState.IsValid) //se os dados estiverem validos
+            {
+                _context.Tarefas.Add(tarefa);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(ObterTodos)); //volta para a tela de ObterTodos
+            }
+            return View(tarefa); // se não for valido, retorna para a mesma pagina. Exibindo os erros
         }
     }
 }
