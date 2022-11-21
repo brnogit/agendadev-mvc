@@ -12,6 +12,8 @@ namespace agendadev_mvc.Controllers
     {
         //carregar as informações do banco de dados da Tarefa em tela// injeção de dependencia
         private readonly TarefaContext _context;
+        // o underline antes do nome da variavel é uma convenção para indicar que as variaveis são privadas, 
+        // no caso ele "deveria" estar na propridade privada
 
         //construtor
         public TarefaController(TarefaContext context)
@@ -41,6 +43,7 @@ namespace agendadev_mvc.Controllers
         }
 
         #region Parte de criação
+
         //Primeira vez que entrar em Criar
         [HttpGet] //opcional colocar o get
         public IActionResult Criar()
@@ -60,10 +63,12 @@ namespace agendadev_mvc.Controllers
             }
             return View(tarefa); // se não for valido, retorna para a mesma pagina. Exibindo os erros
         }
+
         #endregion
 
         #region Parte de Atualização
-        [HttpGet]
+
+        [HttpGet] //apenas visualizar
         public IActionResult Atualizar(int id) // recebo como parametro o int id pois vou atualizar a tarefa
         {
             var tarefa = _context.Tarefas.Find(id);
@@ -75,6 +80,23 @@ namespace agendadev_mvc.Controllers
 
             return View(tarefa);
         }
+
+        [HttpPost] //atualizar/editar as informações
+        public IActionResult Atualizar(Tarefa tarefa) // Recebo tarefa como parametro, trazendo todas informações dos campo na tela. 
+        {//IActionResult representa o retorno do metodo http, no caso ira retornar atualizar
+            var tarefaBanco = _context.Tarefas.Find(tarefa.Id); // busco as informações no banco de dados e chamo de tarefaBanco
+
+            tarefaBanco.Titulo = tarefa.Titulo; // atualizo o que esta no banco, com o que estou recebendo no momento
+            tarefaBanco.Descricao = tarefa.Descricao;
+            tarefaBanco.Data = tarefa.Data;
+            tarefaBanco.Status = tarefa.Status;
+
+            _context.Tarefas.Update(tarefaBanco);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(ObterTodos));
+        }
+
         #endregion
 
     }
