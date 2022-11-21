@@ -99,5 +99,20 @@ namespace agendadev_mvc.Controllers
 
         #endregion
 
+        #region Detalhes da Tarefa
+        [HttpGet]
+        public IActionResult Detalhes(int id)
+        {
+            var tarefa = _context.Tarefas.Find(id);
+
+            if(tarefa == null)
+            {
+                return RedirectToAction(nameof(ObterTodos));
+            }
+
+            return View(tarefa);
+        }
+
+        #endregion
     }
 }
