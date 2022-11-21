@@ -20,6 +20,14 @@ namespace agendadev_mvc.Controllers
         }
 
         [HttpGet]
+        public IActionResult ObterTodos()
+        {
+            var tarefas = _context.Tarefas.ToList();
+            return View(tarefas);
+        }
+
+
+        [HttpGet]
         public IActionResult ObterPorId(int id)
         {
             var tarefa = _context.Tarefas.Find(id);
@@ -32,13 +40,7 @@ namespace agendadev_mvc.Controllers
             return View(tarefa);
         }
 
-        [HttpGet]
-        public IActionResult ObterTodos()
-        {
-            var tarefas = _context.Tarefas.ToList();
-            return View(tarefas);
-        }
-
+        #region Parte de criação
         //Primeira vez que entrar em Criar
         [HttpGet] //opcional colocar o get
         public IActionResult Criar()
@@ -58,5 +60,22 @@ namespace agendadev_mvc.Controllers
             }
             return View(tarefa); // se não for valido, retorna para a mesma pagina. Exibindo os erros
         }
+        #endregion
+
+        #region Parte de Atualização
+        [HttpGet]
+        public IActionResult Atualizar(int id) // recebo como parametro o int id pois vou atualizar a tarefa
+        {
+            var tarefa = _context.Tarefas.Find(id);
+
+            if(tarefa == null)
+            {
+                return RedirectToAction(nameof(ObterTodos));
+            }
+
+            return View(tarefa);
+        }
+        #endregion
+
     }
 }

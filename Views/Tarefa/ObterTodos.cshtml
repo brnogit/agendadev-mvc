@@ -1,13 +1,13 @@
 @model IEnumerable<agendadev_mvc.Models.Tarefa>
 
 @{
-    ViewData["Title"] = "Obter por Id";
+    ViewData["Title"] = "Obter todos";
 }
 
 <h2>Tarefas</h2>
 
 <p>
-    <a asp-action="Criar">Nova Tarefa</a>
+    <a asp-action="ObterTodos">Nova Tarefa</a>
 </p>
 
 <table class="table">
@@ -51,9 +51,9 @@
                     @Html.DisplayFor(model => item.Status)
                 </td>
                 <td>
-                    <a asp-action="Editar" asp-route-id="item.Id">Editar</a> |
-                    <a asp-action="Detalhes" asp-route-id="item.Id">Detalhes</a> |
-                    <a asp-action="Deletar" asp-route-id="item.Id">Deletar</a>
+                    <a asp-action="Atualizar" asp-route-id="@item.Id">Atualizar</a> |
+                    <a asp-action="Detalhes" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-action="Deletar" asp-route-id="@item.Id">Deletar</a>
                 </td>
             </tr>
         }
